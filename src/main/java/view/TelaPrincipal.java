@@ -19,7 +19,7 @@ public class TelaPrincipal extends JFrame {
         setTitle("Sistema de Cadastro de Médicos Residentes");
         setSize(400, 300);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLayout(new GridLayout(3, 1)); // Dividindo a tela em 3 linhas para os botões
+        setLayout(new GridLayout(4, 1)); // Dividindo a tela em 4 linhas para os botões
 
         // Botão para cadastro de residente
         JButton btnCadastroResidente = new JButton("Cadastrar Residente");
@@ -41,6 +41,16 @@ public class TelaPrincipal extends JFrame {
         });
         add(btnCadastroResidencia);
 
+        // Botão para cadastro de matrícula
+        JButton btnCadastroMatricula = new JButton("Cadastrar Matrícula");
+        btnCadastroMatricula.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new CadastroMatricula().setVisible(true); // Abrir a tela de cadastro de matrícula
+            }
+        });
+        add(btnCadastroMatricula);
+        
         // Botão para sair
         JButton btnSair = new JButton("Sair");
         btnSair.addActionListener(new ActionListener() {

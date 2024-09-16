@@ -1,4 +1,5 @@
 model\Residencia.class
+view\CadastroMatricula.class
 view\TelaPrincipal.class
 view\CadastroResidente$1.class
 view\TelaPrincipal$2.class
@@ -6,11 +7,13 @@ database\Conexao.class
 model\Matricula.class
 view\TelaPrincipal$1.class
 view\CadastroResidencia.class
+view\TelaPrincipal$4.class
 TesteMainApp.class
 com\mycompany\sistemaresidenciamedica\SistemaResidenciaMedica.class
 TesteNovoResidente.class
 model\Residente.class
 dao\ResidenciaDAO.class
+view\CadastroMatricula$1.class
 view\CadastroResidente.class
 view\TelaPrincipal$3.class
 dao\MatriculaDAO.class

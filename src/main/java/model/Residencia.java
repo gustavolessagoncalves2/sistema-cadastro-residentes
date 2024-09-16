@@ -62,5 +62,11 @@ public class Residencia {
     public void setDuracaoResidencia(Duration duracaoResidencia) {
         this.duracaoResidencia = duracaoResidencia;
     }
+    
+    // Método toString() sobrescrito para representar a residência
+    @Override
+    public String toString() {
+        return nomeResidencia + " (" + apelidoResidencia + ")"; // Retorna o nome da Residência e seu apelido para ser exibido no JComboBox
+    }
 }    
 

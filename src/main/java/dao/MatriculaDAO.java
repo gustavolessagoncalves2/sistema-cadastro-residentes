@@ -18,6 +18,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class MatriculaDAO {
 
     // CREATE: Insere uma nova matrícula no banco de dados
@@ -128,6 +129,28 @@ public class MatriculaDAO {
         } catch (SQLException e) {
             System.out.println("Erro ao deletar matrícula: " + e.getMessage());
         }
+    }
+    
+    // CHECK: Verifica se a matrícula já existe para o residente e a residência especificados
+    public boolean matriculaExiste(int idResidente, int idResidencia) {
+        String sql = "SELECT COUNT(*) FROM matriculas WHERE id_residente = ? AND id_residencia = ?";
+        boolean existe = false;
+
+        try (Connection conn = Conexao.conectar(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, idResidente);
+            stmt.setInt(2, idResidencia);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                int count = rs.getInt(1);
+                existe = (count > 0);
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Erro ao verificar existência de matrícula: " + e.getMessage());
+        }
+
+        return existe;
     }
 }
 

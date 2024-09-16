@@ -90,4 +90,10 @@ public class Residente {
     public void setIdUnidade(int idUnidade) {
         this.idUnidade = idUnidade;
     }
+    
+    // Método toString() sobrescrito para representar o nome do residente
+    @Override
+    public String toString() {
+        return nomeResidente; // Retorna apenas o nome do residente para ser exibido no JComboBox
+    }
 }
