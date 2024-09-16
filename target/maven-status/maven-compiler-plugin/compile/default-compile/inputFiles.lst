@@ -1,5 +1,6 @@
 C:\Users\gustavogoncalves\Documents\NetBeansProjects\SistemaResidenciaMedica\src\main\java\com\mycompany\sistemaresidenciamedica\SistemaResidenciaMedica.java
 C:\Users\gustavogoncalves\Documents\NetBeansProjects\SistemaResidenciaMedica\src\main\java\view\CadastroResidente.java
+C:\Users\gustavogoncalves\Documents\NetBeansProjects\SistemaResidenciaMedica\src\main\java\view\EdicaoResidente.java
 C:\Users\gustavogoncalves\Documents\NetBeansProjects\SistemaResidenciaMedica\src\main\java\dao\MatriculaDAO.java
 C:\Users\gustavogoncalves\Documents\NetBeansProjects\SistemaResidenciaMedica\src\main\java\model\Matricula.java
 C:\Users\gustavogoncalves\Documents\NetBeansProjects\SistemaResidenciaMedica\src\main\java\TesteMainApp.java
@@ -9,6 +10,7 @@ C:\Users\gustavogoncalves\Documents\NetBeansProjects\SistemaResidenciaMedica\src
 C:\Users\gustavogoncalves\Documents\NetBeansProjects\SistemaResidenciaMedica\src\main\java\TesteConexao.java
 C:\Users\gustavogoncalves\Documents\NetBeansProjects\SistemaResidenciaMedica\src\main\java\model\Residencia.java
 C:\Users\gustavogoncalves\Documents\NetBeansProjects\SistemaResidenciaMedica\src\main\java\view\CadastroResidencia.java
+C:\Users\gustavogoncalves\Documents\NetBeansProjects\SistemaResidenciaMedica\src\main\java\view\ConsultaResidente.java
 C:\Users\gustavogoncalves\Documents\NetBeansProjects\SistemaResidenciaMedica\src\main\java\dao\ResidenteDAO.java
 C:\Users\gustavogoncalves\Documents\NetBeansProjects\SistemaResidenciaMedica\src\main\java\view\TelaPrincipal.java
 C:\Users\gustavogoncalves\Documents\NetBeansProjects\SistemaResidenciaMedica\src\main\java\database\Conexao.java

@@ -98,6 +98,77 @@ public class ResidenteDAO {
         return lista;
     }
 
+    // READ: Buscar residentes por múltiplos filtros (Id, Nome, CPF, RG, CRM ou E-mail)
+    public List<Residente> buscarResidentesPorFiltros(String id, String nome, String cpf, String rg, String crm, String email) {
+        List<Residente> lista = new ArrayList<>();
+        StringBuilder sql = new StringBuilder("SELECT * FROM residentes WHERE 1=1");
+
+        // Adicionar condições de filtro ao SQL
+        if (!id.isEmpty()) {
+            sql.append(" AND id_residente = ?");
+        }
+        if (!nome.isEmpty()) {
+            sql.append(" AND nome_residente ILIKE ?");
+        }
+        if (!cpf.isEmpty()) {
+            sql.append(" AND cpf_residente = ?");
+        }
+        if (!rg.isEmpty()) {
+            sql.append(" AND rg_residente = ?");
+        }
+        if (!crm.isEmpty()) {
+            sql.append(" AND crm_residente = ?");
+        }
+        if (!email.isEmpty()) {
+            sql.append(" AND email_residente ILIKE ?");
+        }
+
+        try (Connection conn = Conexao.conectar(); PreparedStatement stmt = conn.prepareStatement(sql.toString())) {
+            int index = 1;
+
+            // Definir parâmetros no PreparedStatement
+            if (!id.isEmpty()) {
+                stmt.setInt(index++, Integer.parseInt(id));
+            }
+            if (!nome.isEmpty()) {
+                stmt.setString(index++, "%" + nome + "%"); // ILIKE usa % para busca parcial
+            }
+            if (!cpf.isEmpty()) {
+                stmt.setString(index++, cpf);
+            }
+            if (!rg.isEmpty()) {
+                stmt.setString(index++, rg);
+            }
+            if (!crm.isEmpty()) {
+                stmt.setString(index++, crm);
+            }
+            if (!email.isEmpty()) {
+                stmt.setString(index++, "%" + email + "%"); // ILIKE usa % para busca parcial
+            }
+
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                Residente residente = new Residente();
+                residente.setIdResidente(rs.getInt("id_residente"));
+                residente.setNomeResidente(rs.getString("nome_residente"));
+                residente.setCpfResidente(rs.getString("cpf_residente"));
+                residente.setRgResidente(rs.getString("rg_residente"));
+                residente.setCrmResidente(rs.getString("crm_residente"));
+                residente.setEmailResidente(rs.getString("email_residente"));
+                residente.setTelefoneResidente(rs.getString("telefone_residente"));
+                residente.setIdUnidade(rs.getInt("id_unidade"));
+
+                lista.add(residente);
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Erro ao buscar residentes: " + e.getMessage());
+        }
+
+        return lista;
+    }
+        
     // UPDATE: Atualiza um residente existente
     public void atualizarResidente(Residente residente) {
         String sql = "UPDATE residentes SET nome_residente = ?, cpf_residente = ?, rg_residente = ?, crm_residente = ?, email_residente = ?, telefone_residente = ?, id_unidade = ? WHERE id_residente = ?";
