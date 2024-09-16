@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package view;
+package com.sms.sistemaresidenciamedica.main;
 
 /**
  *
@@ -12,6 +12,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import view.CadastroMatricula;
+import view.CadastroResidencia;
+import view.CadastroResidente;
+import view.ConsultaResidente;
 
 public class TelaPrincipal extends JFrame {
     
