@@ -26,7 +26,7 @@
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>3.0.0</version>
                 <configuration>
-                    <mainClass>com.mycompany.sistemaresidenciamedica.SistemaResidenciaMedica</mainClass>
+                    <mainClass>com.mycompany.sistemaresidenciamedica.main.TelaPrincipal</mainClass>
                 </configuration>
             </plugin>
         </plugins>

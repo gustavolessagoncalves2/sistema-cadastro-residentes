@@ -1,3 +1,5 @@
+package testes;
+
 
 import dao.ResidenteDAO;
 import model.Residente;
