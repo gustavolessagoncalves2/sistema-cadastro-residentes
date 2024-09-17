@@ -22,7 +22,6 @@ public class TesteNovoResidente {
         residente.setCrmResidente("12345");
         residente.setEmailResidente("teste@exemplo.com");
         residente.setTelefoneResidente("11999999999");
-        residente.setIdUnidade(301);
 
         ResidenteDAO dao = new ResidenteDAO();
         dao.cadastrarResidente(residente);

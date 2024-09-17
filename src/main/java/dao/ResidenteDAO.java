@@ -22,7 +22,7 @@ public class ResidenteDAO {
     
     // CREATE: Insere um novo residente no banco de dados
     public void cadastrarResidente(Residente residente) {
-        String sql = "INSERT INTO residentes (nome_residente, cpf_residente, rg_residente, crm_residente, email_residente, telefone_residente, id_unidade) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO residentes (nome_residente, cpf_residente, rg_residente, crm_residente, email_residente, telefone_residente, id_unidade) VALUES (?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = Conexao.conectar(); PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, residente.getNomeResidente());
@@ -31,7 +31,6 @@ public class ResidenteDAO {
             stmt.setString(4, residente.getCrmResidente());
             stmt.setString(5, residente.getEmailResidente());
             stmt.setString(6, residente.getTelefoneResidente());
-            stmt.setInt(7, residente.getIdUnidade());
 
             stmt.executeUpdate();
             System.out.println("Residente cadastrado com sucesso!");
@@ -59,7 +58,6 @@ public class ResidenteDAO {
                 residente.setCrmResidente(rs.getString("crm_residente"));
                 residente.setEmailResidente(rs.getString("email_residente"));
                 residente.setTelefoneResidente(rs.getString("telefone_residente"));
-                residente.setIdUnidade(rs.getInt("id_unidade"));
             }
 
         } catch (SQLException e) {
@@ -86,7 +84,6 @@ public class ResidenteDAO {
                 residente.setCrmResidente(rs.getString("crm_residente"));
                 residente.setEmailResidente(rs.getString("email_residente"));
                 residente.setTelefoneResidente(rs.getString("telefone_residente"));
-                residente.setIdUnidade(rs.getInt("id_unidade"));
 
                 lista.add(residente);
             }
@@ -157,7 +154,6 @@ public class ResidenteDAO {
                 residente.setCrmResidente(rs.getString("crm_residente"));
                 residente.setEmailResidente(rs.getString("email_residente"));
                 residente.setTelefoneResidente(rs.getString("telefone_residente"));
-                residente.setIdUnidade(rs.getInt("id_unidade"));
 
                 lista.add(residente);
             }
@@ -171,7 +167,7 @@ public class ResidenteDAO {
         
     // UPDATE: Atualiza um residente existente
     public void atualizarResidente(Residente residente) {
-        String sql = "UPDATE residentes SET nome_residente = ?, cpf_residente = ?, rg_residente = ?, crm_residente = ?, email_residente = ?, telefone_residente = ?, id_unidade = ? WHERE id_residente = ?";
+        String sql = "UPDATE residentes SET nome_residente = ?, cpf_residente = ?, rg_residente = ?, crm_residente = ?, email_residente = ?, telefone_residente = ? WHERE id_residente = ?";
 
         try (Connection conn = Conexao.conectar(); PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, residente.getNomeResidente());
@@ -180,8 +176,7 @@ public class ResidenteDAO {
             stmt.setString(4, residente.getCrmResidente());
             stmt.setString(5, residente.getEmailResidente());
             stmt.setString(6, residente.getTelefoneResidente());
-            stmt.setInt(7, residente.getIdUnidade());
-            stmt.setInt(8, residente.getIdResidente());
+            stmt.setInt(7, residente.getIdResidente());
 
             stmt.executeUpdate();
             System.out.println("Residente atualizado com sucesso!");

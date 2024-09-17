@@ -120,7 +120,7 @@ public class ConsultaResidente extends JFrame {
     }
 
     private void atualizarTabelaResidentes() {
-        String[] colunas = {"ID", "Nome", "CPF", "RG", "CRM", "Email", "Telefone", "ID Unidade"};
+        String[] colunas = {"ID", "Nome", "CPF", "RG", "CRM", "Email", "Telefone"};
         
         if (residentes.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Nenhum residente encontrado.");
@@ -136,8 +136,7 @@ public class ConsultaResidente extends JFrame {
                     residente.getRgResidente(),
                     residente.getCrmResidente(),
                     residente.getEmailResidente(),
-                    residente.getTelefoneResidente(),
-                    residente.getIdUnidade()
+                    residente.getTelefoneResidente()
                 };
             }
             residentesTable.setModel(new DefaultTableModel(dados, colunas));

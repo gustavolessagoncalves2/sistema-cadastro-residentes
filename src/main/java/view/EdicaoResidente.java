@@ -26,7 +26,6 @@ public class EdicaoResidente extends JFrame {
     private JTextField crmField;
     private JTextField emailField;
     private JTextField telefoneField;
-    private JTextField idUnidadeField;
     private JButton salvarButton;
     private ResidenteDAO residenteDAO;
     private int residenteId;
@@ -50,7 +49,6 @@ public class EdicaoResidente extends JFrame {
             crmField = new JTextField(residente.getCrmResidente());
             emailField = new JTextField(residente.getEmailResidente());
             telefoneField = new JTextField(residente.getTelefoneResidente());
-            idUnidadeField = new JTextField(String.valueOf(residente.getIdUnidade()));
 
             salvarButton = new JButton("Salvar Alterações");
             salvarButton.addActionListener(new ActionListener() {
@@ -72,8 +70,6 @@ public class EdicaoResidente extends JFrame {
             add(emailField);
             add(new JLabel("Telefone:"));
             add(telefoneField);
-            add(new JLabel("ID Unidade:"));
-            add(idUnidadeField);
             add(new JLabel(""));
             add(salvarButton);
         } else {
@@ -92,7 +88,6 @@ public class EdicaoResidente extends JFrame {
             residente.setCrmResidente(crmField.getText());
             residente.setEmailResidente(emailField.getText());
             residente.setTelefoneResidente(telefoneField.getText());
-            residente.setIdUnidade(Integer.parseInt(idUnidadeField.getText()));
 
             residenteDAO.atualizarResidente(residente);
             JOptionPane.showMessageDialog(this, "Dados do residente atualizados com sucesso!");

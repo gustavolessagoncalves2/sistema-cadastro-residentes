@@ -17,7 +17,6 @@ public class Residente {
     private String crmResidente;
     private String emailResidente;
     private String telefoneResidente;
-    private int idUnidade;
 
     // Getter e Setter para idResidente
     public int getIdResidente() {
@@ -82,15 +81,6 @@ public class Residente {
         this.telefoneResidente = telefoneResidente;
     }
 
-    // Getter e Setter para idUnidade
-    public int getIdUnidade() {
-        return idUnidade;
-    }
-
-    public void setIdUnidade(int idUnidade) {
-        this.idUnidade = idUnidade;
-    }
-    
     // Método toString() sobrescrito para representar o nome do residente
     @Override
     public String toString() {

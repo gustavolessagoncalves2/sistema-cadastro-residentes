@@ -52,10 +52,6 @@ public class CadastroResidente extends JFrame {
         telefoneField = new JTextField();
         panel.add(telefoneField);
 
-        panel.add(new JLabel("ID da Unidade:"));
-        idUnidadeField = new JTextField();
-        panel.add(idUnidadeField);
-
         // Botão de salvar
         JButton btnSalvar = new JButton("Salvar");
         btnSalvar.addActionListener(new ActionListener() {
@@ -77,20 +73,10 @@ public class CadastroResidente extends JFrame {
         String crm = crmField.getText();
         String email = emailField.getText();
         String telefone = telefoneField.getText();
-        String idUnidadeStr = idUnidadeField.getText();
 
         // Validação básica
-        if (nome.isEmpty() || cpf.isEmpty() || rg.isEmpty() || crm.isEmpty() || email.isEmpty() || telefone.isEmpty() || idUnidadeStr.isEmpty()) {
+        if (nome.isEmpty() || cpf.isEmpty() || rg.isEmpty() || crm.isEmpty() || email.isEmpty() || telefone.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Todos os campos são obrigatórios!");
-            return;
-        }
-
-        // Verificação se o ID da unidade é um número válido
-        int idUnidade;
-        try {
-            idUnidade = Integer.parseInt(idUnidadeStr);
-        } catch (NumberFormatException ex) {
-            JOptionPane.showMessageDialog(this, "ID da Unidade deve ser um número válido!");
             return;
         }
 
@@ -102,7 +88,6 @@ public class CadastroResidente extends JFrame {
         residente.setCrmResidente(crm);
         residente.setEmailResidente(email);
         residente.setTelefoneResidente(telefone);
-        residente.setIdUnidade(idUnidade);
 
         ResidenteDAO residenteDAO = new ResidenteDAO();
         residenteDAO.cadastrarResidente(residente);
@@ -117,6 +102,5 @@ public class CadastroResidente extends JFrame {
         crmField.setText("");
         emailField.setText("");
         telefoneField.setText("");
-        idUnidadeField.setText("");
     }
 }
