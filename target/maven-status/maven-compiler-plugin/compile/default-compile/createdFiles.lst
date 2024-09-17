@@ -23,5 +23,6 @@ view\ConsultaResidente.class
 model\Residente.class
 dao\ResidenciaDAO.class
 com\mycompany\sistemaresidenciamedica\main\TelaPrincipal$1.class
+testes\TesteConexao2.class
 dao\MatriculaDAO.class
 testes\TesteConexao.class
