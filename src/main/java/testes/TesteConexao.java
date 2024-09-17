@@ -16,14 +16,30 @@ import java.sql.SQLException;
  * @author gustavogoncalves
  */
 
+//public class TesteConexao {
+//    public static void main(String[] args) {
+//        try {
+//            Connection conn = Conexao.conectar();
+//            System.out.println("Conexão bem-sucedida!");
+//            conn.close();
+//        } catch (SQLException e) {
+//            System.out.println("Falha na conexão: " + e.getMessage());
+//        }
+//    }
+//}
+
 public class TesteConexao {
     public static void main(String[] args) {
         try {
-            Connection conn = Conexao.conectar();
-            System.out.println("Conexão bem-sucedida!");
-            conn.close();
+            Connection connection = Conexao.conectar();
+            // Use a conexão conforme necessário
+            
+            // Fechar a conexão quando não for mais necessária
+            if (connection != null) {
+                connection.close();
+            }
         } catch (SQLException e) {
-            System.out.println("Falha na conexão: " + e.getMessage());
+            System.out.println("Erro ao conectar ao banco de dados.");
         }
     }
 }
