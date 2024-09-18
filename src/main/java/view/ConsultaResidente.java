@@ -9,7 +9,6 @@ package view;
  * @author gustavogoncalves
  */
 import dao.ResidenteDAO;
-import database.Conexao;
 import model.Residente;
 import javax.swing.*;
 import java.awt.*;
@@ -38,14 +37,13 @@ public class ConsultaResidente extends JFrame {
 
     public ConsultaResidente(Connection connection) {
         this.connection = connection;
+        this.residenteDAO = new ResidenteDAO(connection); // Passa a conexão para o DAO
         
         setTitle("Consulta de Residente");
         setSize(800, 600);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLayout(new BorderLayout());
 
-        residenteDAO = new ResidenteDAO();
-        
         // Painel de pesquisa
         JPanel pesquisaPanel = new JPanel();
         pesquisaPanel.setLayout(new GridLayout(7, 2)); // Uma linha para cada campo de pesquisa
@@ -77,7 +75,7 @@ public class ConsultaResidente extends JFrame {
         pesquisaPanel.add(crmField);
         pesquisaPanel.add(new JLabel("Email:"));
         pesquisaPanel.add(emailField);
-        pesquisaPanel.add(new JLabel(""));
+        pesquisaPanel.add(new JLabel("")); // Espaço vazio
         pesquisaPanel.add(pesquisarButton);
         
         add(pesquisaPanel, BorderLayout.NORTH);
@@ -103,7 +101,7 @@ public class ConsultaResidente extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (residenteSelecionadoId != -1) {
-                    new EdicaoResidente(residenteSelecionadoId).setVisible(true);
+                    new EdicaoResidente(residenteSelecionadoId, connection).setVisible(true);
                 } else {
                     JOptionPane.showMessageDialog(ConsultaResidente.this, "Selecione um residente para editar!");
                 }
@@ -149,18 +147,4 @@ public class ConsultaResidente extends JFrame {
             residentesTable.setModel(new DefaultTableModel(dados, colunas));
         }
     }
-
-//    public static void main(String[] args) {
-//        new ConsultaResidente().setVisible(true);
-//    }
-    
-    public static void main(String[] args) {
-    try {
-        Connection connection = Conexao.conectar(); // Cria a conexão
-        new ConsultaResidente(connection).setVisible(true); // Passa a conexão para a tela de consulta
-    } catch (SQLException e) {
-        e.printStackTrace();
-    }
-    }   
 }
-

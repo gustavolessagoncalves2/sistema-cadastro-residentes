@@ -14,12 +14,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.time.Duration;
 import java.sql.Connection;
 
 public class CadastroResidencia extends JFrame {
-    private Connection connection;
-    
+    private Connection connection; // Conexão recebida da TelaPrincipal
     private JTextField nomeField, apelidoField, categoriaField;
 
     public CadastroResidencia(Connection connection) {
@@ -76,11 +74,16 @@ public class CadastroResidencia extends JFrame {
         residencia.setApelidoResidencia(apelido);
         residencia.setCategoriaResidencia(categoria);
 
-        ResidenciaDAO residenciaDAO = new ResidenciaDAO();
-        residenciaDAO.cadastrarResidencia(residencia);
-
-        // Mensagem de sucesso
-        JOptionPane.showMessageDialog(this, "Residência cadastrada com sucesso!");
+        // Passa a conexão ao DAO
+        ResidenciaDAO residenciaDAO = new ResidenciaDAO(connection);
+        try {
+            residenciaDAO.cadastrarResidencia(residencia);
+            // Mensagem de sucesso
+            JOptionPane.showMessageDialog(this, "Residência cadastrada com sucesso!");
+        } catch (Exception ex) {
+            // Mensagem de erro
+            JOptionPane.showMessageDialog(this, "Erro ao cadastrar residência: " + ex.getMessage());
+        }
 
         // Limpa os campos
         nomeField.setText("");
@@ -88,4 +91,3 @@ public class CadastroResidencia extends JFrame {
         categoriaField.setText("");
     }
 }
-

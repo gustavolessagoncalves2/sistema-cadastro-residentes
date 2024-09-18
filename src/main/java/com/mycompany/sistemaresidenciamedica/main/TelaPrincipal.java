@@ -8,90 +8,6 @@ package com.mycompany.sistemaresidenciamedica.main;
  *
  * @author gustavogoncalves
  */
-//import javax.swing.*;
-//import java.awt.*;
-//import java.awt.event.ActionEvent;
-//import java.awt.event.ActionListener;
-//import view.CadastroMatricula;
-//import view.CadastroResidencia;
-//import view.CadastroResidente;
-//import view.ConsultaResidente;
-//import view.ConsultaResidencia; 
-//
-//public class TelaPrincipal extends JFrame {
-//
-//    public TelaPrincipal() {
-//        setTitle("Sistema de Cadastro de Médicos Residentes");
-//        setSize(400, 400); // Aumentei o tamanho para acomodar o novo botão
-//        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//        setLayout(new GridLayout(3, 1)); // Dividindo a tela em 3 linhas para os botões
-//
-//        // Botão para cadastro de residente
-//        JButton btnCadastroResidente = new JButton("Cadastrar Residente");
-//        btnCadastroResidente.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                new CadastroResidente().setVisible(true); // Abrir a tela de cadastro de residente
-//            }
-//        });
-//        add(btnCadastroResidente);
-//
-//        // Botão para cadastro de residência
-//        JButton btnCadastroResidencia = new JButton("Cadastrar Residência");
-//        btnCadastroResidencia.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                new CadastroResidencia().setVisible(true); // Abrir a tela de cadastro de residência
-//            }
-//        });
-//        add(btnCadastroResidencia);
-//
-//        // Botão para cadastro de matrícula
-//        JButton btnCadastroMatricula = new JButton("Cadastrar Matrícula");
-//        btnCadastroMatricula.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                new CadastroMatricula().setVisible(true); // Abrir a tela de cadastro de matrícula
-//            }
-//        });
-//        add(btnCadastroMatricula);
-//
-//        // Botão para consulta de residente
-//        JButton btnConsultaResidente = new JButton("Consultar Residente");
-//        btnConsultaResidente.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                new ConsultaResidente().setVisible(true); // Abrir a tela de consulta de residente
-//            }
-//        });
-//        add(btnConsultaResidente);
-//
-//        // Novo botão para consulta de residência
-//        JButton btnConsultaResidencia = new JButton("Consultar Residência");
-//        btnConsultaResidencia.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                new ConsultaResidencia().setVisible(true); // Abrir a tela de consulta de residência
-//            }
-//        });
-//        add(btnConsultaResidencia);
-//
-//        // Botão para sair
-//        JButton btnSair = new JButton("Sair");
-//        btnSair.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                System.exit(0); // Fecha o sistema
-//            }
-//        });
-//        add(btnSair);
-//    }
-//
-//    public static void main(String[] args) {
-//        new TelaPrincipal().setVisible(true);
-//    }
-//}
-
 import database.Conexao;
 import javax.swing.*;
 import java.awt.*;
@@ -112,16 +28,16 @@ public class TelaPrincipal extends JFrame {
         this.connection = connection;
 
         setTitle("Sistema de Cadastro de Médicos Residentes");
-        setSize(400, 400); // Aumentei o tamanho para acomodar o novo botão
+        setSize(400, 400); // Tamanho ajustado para acomodar os botões
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLayout(new GridLayout(4, 1)); // Dividindo a tela em 4 linhas para os botões
+        setLayout(new GridLayout(5, 1)); // Ajuste para incluir o botão "Sair"
 
         // Botão para cadastro de residente
         JButton btnCadastroResidente = new JButton("Cadastrar Residente");
         btnCadastroResidente.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new CadastroResidente(connection).setVisible(true); // Passa a conexão para a tela de cadastro de residente
+                new CadastroResidente(connection).setVisible(true);
             }
         });
         add(btnCadastroResidente);
@@ -131,7 +47,7 @@ public class TelaPrincipal extends JFrame {
         btnCadastroResidencia.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new CadastroResidencia(connection).setVisible(true); // Passa a conexão para a tela de cadastro de residência
+                new CadastroResidencia(connection).setVisible(true);
             }
         });
         add(btnCadastroResidencia);
@@ -141,7 +57,7 @@ public class TelaPrincipal extends JFrame {
         btnCadastroMatricula.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new CadastroMatricula(connection).setVisible(true); // Passa a conexão para a tela de cadastro de matrícula
+                new CadastroMatricula(connection).setVisible(true);
             }
         });
         add(btnCadastroMatricula);
@@ -151,17 +67,17 @@ public class TelaPrincipal extends JFrame {
         btnConsultaResidente.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new ConsultaResidente(connection).setVisible(true); // Passa a conexão para a tela de consulta de residente
+                new ConsultaResidente(connection).setVisible(true);
             }
         });
         add(btnConsultaResidente);
 
-        // Novo botão para consulta de residência
+        // Botão para consulta de residência
         JButton btnConsultaResidencia = new JButton("Consultar Residência");
         btnConsultaResidencia.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new ConsultaResidencia(connection).setVisible(true); // Passa a conexão para a tela de consulta de residência
+                new ConsultaResidencia(connection).setVisible(true);
             }
         });
         add(btnConsultaResidencia);

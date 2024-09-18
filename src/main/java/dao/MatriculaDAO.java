@@ -9,7 +9,6 @@ package dao;
  *
  * @author gustavogoncalves
  */
-import database.Conexao;
 import model.Matricula;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -18,14 +17,19 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class MatriculaDAO {
+    private Connection connection; // Conexão fornecida pela TelaPrincipal
+
+    // Construtor para receber a conexão
+    public MatriculaDAO(Connection connection) {
+        this.connection = connection;
+    }
 
     // CREATE: Insere uma nova matrícula no banco de dados
     public void cadastrarMatricula(Matricula matricula) {
         String sql = "INSERT INTO matriculas (id_residente, id_residencia, status_matricula, data_inicio_matricula, data_conclusao_prevista_matricula, data_desligamento_matricula) VALUES (?, ?, ?, ?, ?, ?)";
 
-        try (Connection conn = Conexao.conectar(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, matricula.getIdResidente());
             stmt.setInt(2, matricula.getIdResidencia());
             stmt.setString(3, matricula.getStatusMatricula());
@@ -46,7 +50,7 @@ public class MatriculaDAO {
         String sql = "SELECT * FROM matriculas WHERE id_matricula = ?";
         Matricula matricula = null;
 
-        try (Connection conn = Conexao.conectar(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, idMatricula);
             ResultSet rs = stmt.executeQuery();
 
@@ -73,7 +77,7 @@ public class MatriculaDAO {
         String sql = "SELECT * FROM matriculas";
         List<Matricula> lista = new ArrayList<>();
 
-        try (Connection conn = Conexao.conectar(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
@@ -100,7 +104,7 @@ public class MatriculaDAO {
     public void atualizarMatricula(Matricula matricula) {
         String sql = "UPDATE matriculas SET id_residente = ?, id_residencia = ?, status_matricula = ?, data_inicio_matricula = ?, data_conclusao_prevista_matricula = ?, data_desligamento_matricula = ? WHERE id_matricula = ?";
 
-        try (Connection conn = Conexao.conectar(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, matricula.getIdResidente());
             stmt.setInt(2, matricula.getIdResidencia());
             stmt.setString(3, matricula.getStatusMatricula());
@@ -121,7 +125,7 @@ public class MatriculaDAO {
     public void deletarMatricula(int idMatricula) {
         String sql = "DELETE FROM matriculas WHERE id_matricula = ?";
 
-        try (Connection conn = Conexao.conectar(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, idMatricula);
             stmt.executeUpdate();
             System.out.println("Matrícula deletada com sucesso!");
@@ -136,7 +140,7 @@ public class MatriculaDAO {
         String sql = "SELECT COUNT(*) FROM matriculas WHERE id_residente = ? AND id_residencia = ?";
         boolean existe = false;
 
-        try (Connection conn = Conexao.conectar(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, idResidente);
             stmt.setInt(2, idResidencia);
             ResultSet rs = stmt.executeQuery();

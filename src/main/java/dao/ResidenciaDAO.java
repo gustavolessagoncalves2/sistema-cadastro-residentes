@@ -9,24 +9,27 @@ package dao;
  *
  * @author gustavogoncalves
  */
-import database.Conexao;
 import model.Residencia;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.Duration;
-import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ResidenciaDAO {
-    
+    private Connection connection; // Conexão fornecida pela TelaPrincipal
+
+    // Construtor para receber a conexão
+    public ResidenciaDAO(Connection connection) {
+        this.connection = connection;
+    }
+
     // CREATE: Insere uma nova residência no banco de dados
     public void cadastrarResidencia(Residencia residencia) {
         String sql = "INSERT INTO residencias (nome_residencia, apelido_residencia, categoria_residencia) VALUES (?, ?, ?)";
 
-        try (Connection conn = Conexao.conectar(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, residencia.getNomeResidencia());
             stmt.setString(2, residencia.getApelidoResidencia());
             stmt.setString(3, residencia.getCategoriaResidencia());
@@ -44,7 +47,7 @@ public class ResidenciaDAO {
         String sql = "SELECT * FROM residencias WHERE id_residencia = ?";
         Residencia residencia = null;
 
-        try (Connection conn = Conexao.conectar(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, idResidencia);
             ResultSet rs = stmt.executeQuery();
 
@@ -68,7 +71,7 @@ public class ResidenciaDAO {
         String sql = "SELECT * FROM residencias";
         List<Residencia> lista = new ArrayList<>();
 
-        try (Connection conn = Conexao.conectar(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
@@ -107,7 +110,7 @@ public class ResidenciaDAO {
             sql.append(" AND categoria_residencia ILIKE ?");
         }
 
-        try (Connection conn = Conexao.conectar(); PreparedStatement stmt = conn.prepareStatement(sql.toString())) {
+        try (PreparedStatement stmt = connection.prepareStatement(sql.toString())) {
             int index = 1;
 
             // Define parâmetros no PreparedStatement
@@ -147,7 +150,7 @@ public class ResidenciaDAO {
     public void atualizarResidencia(Residencia residencia) {
         String sql = "UPDATE residencias SET nome_residencia = ?, apelido_residencia = ?, categoria_residencia = ? WHERE id_residencia = ?";
 
-        try (Connection conn = Conexao.conectar(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, residencia.getNomeResidencia());
             stmt.setString(2, residencia.getApelidoResidencia());
             stmt.setString(3, residencia.getCategoriaResidencia());
@@ -165,7 +168,7 @@ public class ResidenciaDAO {
     public void deletarResidencia(int idResidencia) {
         String sql = "DELETE FROM residencias WHERE id_residencia = ?";
 
-        try (Connection conn = Conexao.conectar(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, idResidencia);
             stmt.executeUpdate();
             System.out.println("Residência deletada com sucesso!");
@@ -175,4 +178,3 @@ public class ResidenciaDAO {
         }
     }
 }
-

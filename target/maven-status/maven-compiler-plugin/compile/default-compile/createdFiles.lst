@@ -1,5 +1,4 @@
 model\Residencia.class
-testes\TesteNovoResidente.class
 view\CadastroMatricula.class
 com\mycompany\sistemaresidenciamedica\main\TelaPrincipal$5.class
 view\ConsultaResidente$1.class

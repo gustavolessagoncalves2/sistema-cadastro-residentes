@@ -9,22 +9,27 @@ package dao;
  *
  * @author gustavogoncalves
  */
-import database.Conexao;
-import model.Residente;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import model.Residente;
 
 public class ResidenteDAO {
-    
+    private Connection connection; // Conexão fornecida pela TelaPrincipal
+
+    // Construtor para receber a conexão
+    public ResidenteDAO(Connection connection) {
+        this.connection = connection;
+    }
+
     // CREATE: Insere um novo residente no banco de dados
     public void cadastrarResidente(Residente residente) {
-        String sql = "INSERT INTO residentes (nome_residente, cpf_residente, rg_residente, crm_residente, email_residente, telefone_residente, id_unidade) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO residentes (nome_residente, cpf_residente, rg_residente, crm_residente, email_residente, telefone_residente) VALUES (?, ?, ?, ?, ?, ?)";
 
-        try (Connection conn = Conexao.conectar(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, residente.getNomeResidente());
             stmt.setString(2, residente.getCpfResidente());
             stmt.setString(3, residente.getRgResidente());
@@ -45,7 +50,7 @@ public class ResidenteDAO {
         String sql = "SELECT * FROM residentes WHERE id_residente = ?";
         Residente residente = null;
 
-        try (Connection conn = Conexao.conectar(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, idResidente);
             ResultSet rs = stmt.executeQuery();
 
@@ -72,7 +77,7 @@ public class ResidenteDAO {
         String sql = "SELECT * FROM residentes";
         List<Residente> lista = new ArrayList<>();
 
-        try (Connection conn = Conexao.conectar(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
@@ -120,7 +125,7 @@ public class ResidenteDAO {
             sql.append(" AND email_residente ILIKE ?");
         }
 
-        try (Connection conn = Conexao.conectar(); PreparedStatement stmt = conn.prepareStatement(sql.toString())) {
+        try (PreparedStatement stmt = connection.prepareStatement(sql.toString())) {
             int index = 1;
 
             // Definir parâmetros no PreparedStatement
@@ -164,12 +169,12 @@ public class ResidenteDAO {
 
         return lista;
     }
-        
+
     // UPDATE: Atualiza um residente existente
     public void atualizarResidente(Residente residente) {
         String sql = "UPDATE residentes SET nome_residente = ?, cpf_residente = ?, rg_residente = ?, crm_residente = ?, email_residente = ?, telefone_residente = ? WHERE id_residente = ?";
 
-        try (Connection conn = Conexao.conectar(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, residente.getNomeResidente());
             stmt.setString(2, residente.getCpfResidente());
             stmt.setString(3, residente.getRgResidente());
@@ -190,7 +195,7 @@ public class ResidenteDAO {
     public void deletarResidente(int idResidente) {
         String sql = "DELETE FROM residentes WHERE id_residente = ?";
 
-        try (Connection conn = Conexao.conectar(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, idResidente);
             stmt.executeUpdate();
             System.out.println("Residente deletado com sucesso!");

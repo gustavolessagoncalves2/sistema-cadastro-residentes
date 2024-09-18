@@ -9,7 +9,6 @@ package view;
  * @author gustavogoncalves
  */
 import dao.ResidenciaDAO;
-import database.Conexao;
 import model.Residencia;
 import javax.swing.*;
 import java.awt.*;
@@ -21,8 +20,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 public class ConsultaResidencia extends JFrame {
-    private Connection connection;
-    
+    private Connection connection; // Conexão passada pela TelaPrincipal
     private JTextField idField;
     private JTextField nomeField;
     private JTextField apelidoField;
@@ -36,23 +34,22 @@ public class ConsultaResidencia extends JFrame {
 
     public ConsultaResidencia(Connection connection) {
         this.connection = connection;
+        this.residenciaDAO = new ResidenciaDAO(connection); // Passa a conexão para o DAO
 
         setTitle("Consulta de Residência");
         setSize(800, 600);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLayout(new BorderLayout());
 
-        residenciaDAO = new ResidenciaDAO();
-        
         // Painel de pesquisa
         JPanel pesquisaPanel = new JPanel();
         pesquisaPanel.setLayout(new GridLayout(5, 2)); // Uma linha para cada campo de pesquisa
-        
+
         idField = new JTextField(20);
         nomeField = new JTextField(20);
         apelidoField = new JTextField(20);
         categoriaField = new JTextField(20);
-        
+
         pesquisarButton = new JButton("Pesquisar");
         pesquisarButton.addActionListener(new ActionListener() {
             @Override
@@ -69,9 +66,9 @@ public class ConsultaResidencia extends JFrame {
         pesquisaPanel.add(apelidoField);
         pesquisaPanel.add(new JLabel("Categoria:"));
         pesquisaPanel.add(categoriaField);
-         pesquisaPanel.add(new JLabel("")); // Espaço vazio
+        pesquisaPanel.add(new JLabel("")); // Espaço vazio
         pesquisaPanel.add(pesquisarButton);
-        
+
         add(pesquisaPanel, BorderLayout.NORTH);
 
         // Tabela de residências
@@ -95,13 +92,13 @@ public class ConsultaResidencia extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (residenciaSelecionadaId != -1) {
-                    new EdicaoResidencia(residenciaSelecionadaId).setVisible(true);
+                    new EdicaoResidencia(residenciaSelecionadaId, connection).setVisible(true);
                 } else {
                     JOptionPane.showMessageDialog(ConsultaResidencia.this, "Selecione uma residência para editar!");
                 }
             }
         });
-
+        
         botoesPanel.add(editarButton);
         add(botoesPanel, BorderLayout.SOUTH);
     }
@@ -111,14 +108,14 @@ public class ConsultaResidencia extends JFrame {
         String nome = nomeField.getText();
         String apelido = apelidoField.getText();
         String categoria = categoriaField.getText();
-        
+
         residencias = residenciaDAO.buscarResidenciasPorFiltros(id, nome, apelido, categoria);
         atualizarTabelaResidencias();
     }
 
     private void atualizarTabelaResidencias() {
         String[] colunas = {"ID", "Nome", "Apelido", "Categoria"};
-        
+
         if (residencias.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Nenhuma residência encontrada.");
             residenciasTable.setModel(new DefaultTableModel(new Object[0][colunas.length], colunas));
@@ -136,13 +133,5 @@ public class ConsultaResidencia extends JFrame {
             residenciasTable.setModel(new DefaultTableModel(dados, colunas));
         }
     }
-
-    public static void main(String[] args) {
-        try {
-            Connection connection = Conexao.conectar(); // Cria a conexão
-            new ConsultaResidente(connection).setVisible(true); // Passa a conexão para a tela de consulta
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }     
 }
+

@@ -8,16 +8,13 @@ package view;
  *
  * @author gustavogoncalves
  */
-import dao.MatriculaDAO;
-import model.Matricula;
-import dao.ResidenciaDAO;
-import model.Residencia;
 import dao.ResidenteDAO;
 import model.Residente;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
 
 public class EdicaoResidente extends JFrame {
     private JTextField nomeField;
@@ -30,9 +27,9 @@ public class EdicaoResidente extends JFrame {
     private ResidenteDAO residenteDAO;
     private int residenteId;
 
-    public EdicaoResidente(int residenteId) {
+    public EdicaoResidente(int residenteId, Connection connection) {
         this.residenteId = residenteId;
-        residenteDAO = new ResidenteDAO();
+        this.residenteDAO = new ResidenteDAO(connection); // Passa a conexão para o DAO
         
         setTitle("Edição de Residente");
         setSize(400, 300);
@@ -70,7 +67,7 @@ public class EdicaoResidente extends JFrame {
             add(emailField);
             add(new JLabel("Telefone:"));
             add(telefoneField);
-            add(new JLabel(""));
+            add(new JLabel("")); // Espaço vazio
             add(salvarButton);
         } else {
             JOptionPane.showMessageDialog(this, "Residente não encontrado.");
@@ -92,8 +89,8 @@ public class EdicaoResidente extends JFrame {
             residenteDAO.atualizarResidente(residente);
             JOptionPane.showMessageDialog(this, "Dados do residente atualizados com sucesso!");
             dispose();
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "ID Unidade deve ser um número.");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Erro ao atualizar dados: " + e.getMessage());
         }
     }
 }

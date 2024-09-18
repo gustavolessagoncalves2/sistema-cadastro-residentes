@@ -17,7 +17,7 @@ import java.awt.event.ActionListener;
 import java.sql.Connection;
 
 public class CadastroResidente extends JFrame {
-    private Connection connection;
+    private Connection connection; // Conexão recebida da TelaPrincipal
     
     private JTextField nomeField, cpfField, rgField, crmField, emailField, telefoneField, idUnidadeField;
 
@@ -93,11 +93,16 @@ public class CadastroResidente extends JFrame {
         residente.setEmailResidente(email);
         residente.setTelefoneResidente(telefone);
 
-        ResidenteDAO residenteDAO = new ResidenteDAO();
-        residenteDAO.cadastrarResidente(residente);
-
-        // Mensagem de sucesso
-        JOptionPane.showMessageDialog(this, "Residente cadastrado com sucesso!");
+        // Passa a conexão ao DAO
+        ResidenteDAO residenteDAO = new ResidenteDAO(connection);
+        try {
+            residenteDAO.cadastrarResidente(residente);
+            // Mensagem de sucesso
+            JOptionPane.showMessageDialog(this, "Residente cadastrado com sucesso!");
+        } catch (Exception ex) {
+            // Mensagem de erro
+            JOptionPane.showMessageDialog(this, "Erro ao cadastrar residente: " + ex.getMessage());
+        }
 
         // Limpa os campos
         nomeField.setText("");

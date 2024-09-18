@@ -14,6 +14,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
 
 public class EdicaoResidencia extends JFrame {
     private JTextField nomeField;
@@ -23,9 +24,9 @@ public class EdicaoResidencia extends JFrame {
     private ResidenciaDAO residenciaDAO;
     private int residenciaId;
 
-    public EdicaoResidencia(int residenciaId) {
+    public EdicaoResidencia(int residenciaId, Connection connection) {
         this.residenciaId = residenciaId;
-        residenciaDAO = new ResidenciaDAO();
+        residenciaDAO = new ResidenciaDAO(connection); // Passa a conexão para o DAO
 
         setTitle("Edição de Residência");
         setSize(400, 300);
@@ -54,7 +55,7 @@ public class EdicaoResidencia extends JFrame {
             add(apelidoField);
             add(new JLabel("Categoria:"));
             add(categoriaField);
-            add(new JLabel(""));
+            add(new JLabel("")); // Espaço vazio
             add(salvarButton);
         } else {
             JOptionPane.showMessageDialog(this, "Residência não encontrada.");
@@ -82,4 +83,3 @@ public class EdicaoResidencia extends JFrame {
         }
     }
 }
-

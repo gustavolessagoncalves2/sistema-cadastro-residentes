@@ -18,13 +18,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.List;
-import java.util.Date;
 import java.sql.Connection;
+import java.util.List;
 
 public class CadastroMatricula extends JFrame {
     private Connection connection;
-    
+
     private JComboBox<Residente> residenteComboBox;
     private JComboBox<Residencia> residenciaComboBox;
     private JTextField statusField;
@@ -87,12 +86,12 @@ public class CadastroMatricula extends JFrame {
     }
 
     private List<Residente> buscarResidentes() {
-        ResidenteDAO residenteDAO = new ResidenteDAO();
+        ResidenteDAO residenteDAO = new ResidenteDAO(connection);
         return residenteDAO.listarTodosResidentes(); // Método que busca todos os residentes com todos os dados necessários
     }
 
     private List<Residencia> buscarResidencias() {
-        ResidenciaDAO residenciaDAO = new ResidenciaDAO();
+        ResidenciaDAO residenciaDAO = new ResidenciaDAO(connection);
         return residenciaDAO.listarTodasResidencias(); // Método que busca todas as residências com todos os dados necessários
     }
 
@@ -113,7 +112,7 @@ public class CadastroMatricula extends JFrame {
             }
 
             // Verificar se a matrícula já existe para esse residente e residência
-            MatriculaDAO matriculaDAO = new MatriculaDAO();
+            MatriculaDAO matriculaDAO = new MatriculaDAO(connection);
             boolean matriculaExiste = matriculaDAO.matriculaExiste(residenteSelecionado.getIdResidente(), residenciaSelecionada.getIdResidencia());
 
             if (matriculaExiste) {
@@ -141,4 +140,3 @@ public class CadastroMatricula extends JFrame {
         }
     }
 }
-
