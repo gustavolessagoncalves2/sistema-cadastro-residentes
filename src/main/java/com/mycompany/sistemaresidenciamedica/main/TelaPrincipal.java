@@ -24,7 +24,7 @@ public class TelaPrincipal extends JFrame {
         setTitle("Sistema de Cadastro de Médicos Residentes");
         setSize(400, 400); // Aumentei o tamanho para acomodar o novo botão
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLayout(new GridLayout(5, 1)); // Dividindo a tela em 5 linhas para os botões
+        setLayout(new GridLayout(3, 1)); // Dividindo a tela em 3 linhas para os botões
 
         // Botão para cadastro de residente
         JButton btnCadastroResidente = new JButton("Cadastrar Residente");
