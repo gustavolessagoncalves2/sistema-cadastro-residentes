@@ -88,32 +88,51 @@ public class ResidenciaDAO {
         return lista;
     }
 
-    // READ: Buscar residências por múltiplos filtros (Id, Nome, Apelido, Categoria ou Duração)
-    public List<Residencia> buscarResidenciasPorFiltros(String id, String nome, String apelido, String categoria) {
+// READ: Buscar residências por múltiplos filtros (Id, Nome, Apelido ou Categoria)
+public List<Residencia> buscarResidenciasPorFiltros(String id, String nome, String apelido, String categoria) {
     List<Residencia> lista = new ArrayList<>();
-    String sql = "SELECT * FROM residencias WHERE "
-               + "(? IS NULL OR id_residencia = ?) "
-               + "AND (? IS NULL OR nome_residencia ILIKE ?) "
-               + "AND (? IS NULL OR apelido_residencia ILIKE ?) "
-               + "AND (? IS NULL OR categoria_residencia ILIKE ?) ";
+    StringBuilder sql = new StringBuilder("SELECT * FROM residencias WHERE 1=1");
 
-    try (Connection conn = Conexao.conectar(); PreparedStatement stmt = conn.prepareStatement(sql)) {
-        stmt.setString(1, id.isEmpty() ? null : id);
-        stmt.setString(2, id);
-        stmt.setString(3, nome.isEmpty() ? null : nome);
-        stmt.setString(4, "%" + nome + "%");
-        stmt.setString(5, apelido.isEmpty() ? null : apelido);
-        stmt.setString(6, "%" + apelido + "%");
-        stmt.setString(7, categoria.isEmpty() ? null : categoria);
-        stmt.setString(8, "%" + categoria + "%");
+    // Adiciona condições de filtro ao SQL
+    if (!id.isEmpty()) {
+        sql.append(" AND id_residencia = ?");
+    }
+    if (!nome.isEmpty()) {
+        sql.append(" AND nome_residencia ILIKE ?");
+    }
+    if (!apelido.isEmpty()) {
+        sql.append(" AND apelido_residencia ILIKE ?");
+    }
+    if (!categoria.isEmpty()) {
+        sql.append(" AND categoria_residencia ILIKE ?");
+    }
+
+    try (Connection conn = Conexao.conectar(); PreparedStatement stmt = conn.prepareStatement(sql.toString())) {
+        int index = 1;
+
+        // Define parâmetros no PreparedStatement
+        if (!id.isEmpty()) {
+            stmt.setInt(index++, Integer.parseInt(id)); // Converte o id para inteiro
+        }
+        if (!nome.isEmpty()) {
+            stmt.setString(index++, "%" + nome + "%"); // ILIKE usa % para busca parcial
+        }
+        if (!apelido.isEmpty()) {
+            stmt.setString(index++, "%" + apelido + "%"); // ILIKE usa % para busca parcial
+        }
+        if (!categoria.isEmpty()) {
+            stmt.setString(index++, "%" + categoria + "%"); // ILIKE usa % para busca parcial
+        }
 
         ResultSet rs = stmt.executeQuery();
+
         while (rs.next()) {
             Residencia residencia = new Residencia();
             residencia.setIdResidencia(rs.getInt("id_residencia"));
             residencia.setNomeResidencia(rs.getString("nome_residencia"));
             residencia.setApelidoResidencia(rs.getString("apelido_residencia"));
             residencia.setCategoriaResidencia(rs.getString("categoria_residencia"));
+
             lista.add(residencia);
         }
 

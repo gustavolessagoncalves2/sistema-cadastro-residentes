@@ -3,6 +3,7 @@ testes\TesteNovoResidente.class
 view\CadastroMatricula.class
 com\mycompany\sistemaresidenciamedica\main\TelaPrincipal$5.class
 view\ConsultaResidente$1.class
+view\ConsultaResidencia$2.class
 com\mycompany\sistemaresidenciamedica\main\TelaPrincipal$3.class
 testes\TesteMainApp.class
 view\CadastroResidencia.class
@@ -10,6 +11,7 @@ com\mycompany\sistemaresidenciamedica\main\TelaPrincipal$2.class
 view\CadastroMatricula$1.class
 view\CadastroResidente.class
 view\CadastroResidencia$1.class
+view\EdicaoResidencia$1.class
 dao\ResidenteDAO.class
 view\CadastroResidente$1.class
 database\Conexao.class
@@ -19,10 +21,14 @@ view\EdicaoResidente.class
 com\mycompany\sistemaresidenciamedica\main\TelaPrincipal.class
 model\Matricula.class
 view\ConsultaResidente$2.class
+view\ConsultaResidencia.class
 view\ConsultaResidente.class
 model\Residente.class
 dao\ResidenciaDAO.class
+view\ConsultaResidencia$1.class
 com\mycompany\sistemaresidenciamedica\main\TelaPrincipal$1.class
 testes\TesteConexao2.class
 dao\MatriculaDAO.class
 testes\TesteConexao.class
+view\EdicaoResidencia.class
+com\mycompany\sistemaresidenciamedica\main\TelaPrincipal$6.class
