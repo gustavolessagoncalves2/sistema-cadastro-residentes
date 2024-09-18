@@ -122,28 +122,52 @@ public class ConsultaMatricula extends JFrame {
         atualizarTabelaMatriculas();
     }
 
+//    private void atualizarTabelaMatriculas() {
+//        String[] colunas = {"ID", "ID Residente", "ID Residência", "Status", "Data Início", "Data Conclusão Prevista", "Data Desligamento"};
+//
+//        if (matriculas.isEmpty()) {
+//            JOptionPane.showMessageDialog(this, "Nenhuma matrícula encontrada.");
+//            matriculasTable.setModel(new DefaultTableModel(new Object[0][colunas.length], colunas));
+//        } else {
+//            Object[][] dados = new Object[matriculas.size()][colunas.length];
+//            for (int i = 0; i < matriculas.size(); i++) {
+//                Matricula matricula = matriculas.get(i);
+//                dados[i] = new Object[] {
+//                    matricula.getIdMatricula(),
+//                    matricula.getIdResidente(),
+//                    matricula.getIdResidencia(),
+//                    matricula.getStatusMatricula(),
+//                    matricula.getDataInicioMatricula(),
+//                    matricula.getDataConclusaoPrevistaMatricula(),
+//                    matricula.getDataDesligamentoMatricula()
+//                };
+//            }
+//            matriculasTable.setModel(new DefaultTableModel(dados, colunas));
+//        }
+//    }
+    
     private void atualizarTabelaMatriculas() {
-        String[] colunas = {"ID", "ID Residente", "ID Residência", "Status", "Data Início", "Data Conclusão Prevista", "Data Desligamento"};
+    String[] colunas = {"ID", "ID Residente", "ID Residência", "Status", "Data Início", "Data Conclusão Prevista", "Data Desligamento"};
 
-        if (matriculas.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Nenhuma matrícula encontrada.");
-            matriculasTable.setModel(new DefaultTableModel(new Object[0][colunas.length], colunas));
-        } else {
-            Object[][] dados = new Object[matriculas.size()][colunas.length];
-            for (int i = 0; i < matriculas.size(); i++) {
-                Matricula matricula = matriculas.get(i);
-                dados[i] = new Object[] {
-                    matricula.getIdMatricula(),
-                    matricula.getIdResidente(),
-                    matricula.getIdResidencia(),
-                    matricula.getStatusMatricula(),
-                    matricula.getDataInicioMatricula(),
-                    matricula.getDataConclusaoPrevistaMatricula(),
-                    matricula.getDataDesligamentoMatricula()
-                };
-            }
-            matriculasTable.setModel(new DefaultTableModel(dados, colunas));
+    if (matriculas.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Nenhuma matrícula encontrada.");
+        matriculasTable.setModel(new DefaultTableModel(new Object[0][colunas.length], colunas));
+    } else {
+        Object[][] dados = new Object[matriculas.size()][colunas.length];
+        for (int i = 0; i < matriculas.size(); i++) {
+            Matricula matricula = matriculas.get(i);
+            dados[i] = new Object[] {
+                matricula.getIdMatricula(),
+                matricula.getIdResidente(),
+                matricula.getIdResidencia(),
+                matricula.getStatusMatricula(),
+                matricula.getDataInicioMatricula() != null ? matricula.getDataInicioMatricula().toString() : "",
+                matricula.getDataConclusaoPrevistaMatricula() != null ? matricula.getDataConclusaoPrevistaMatricula().toString() : "",
+                matricula.getDataDesligamentoMatricula() != null ? matricula.getDataDesligamentoMatricula().toString() : ""
+            };
         }
+        matriculasTable.setModel(new DefaultTableModel(dados, colunas));
     }
+    }   
 }
 
