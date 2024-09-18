@@ -100,6 +100,76 @@ public class MatriculaDAO {
         return lista;
     }
 
+    // READ: Buscar matrículas por múltiplos filtros (Id, Residente, Residência, Status, Data de Início e Data de Conclusão)
+    public List<Matricula> buscarMatriculasPorFiltros(String id, String idResidente, String idResidencia, String status, String dataInicio, String dataConclusao) {
+        List<Matricula> lista = new ArrayList<>();
+        StringBuilder sql = new StringBuilder("SELECT * FROM matriculas WHERE 1=1");
+
+        // Adiciona condições de filtro ao SQL
+        if (!id.isEmpty()) {
+            sql.append(" AND id_matricula = ?");
+        }
+        if (!idResidente.isEmpty()) {
+            sql.append(" AND id_residente = ?");
+        }
+        if (!idResidencia.isEmpty()) {
+            sql.append(" AND id_residencia = ?");
+        }
+        if (!status.isEmpty()) {
+            sql.append(" AND status_matricula ILIKE ?");
+        }
+        if (!dataInicio.isEmpty()) {
+            sql.append(" AND data_inicio_matricula >= ?");
+        }
+        if (!dataConclusao.isEmpty()) {
+            sql.append(" AND data_conclusao_prevista_matricula <= ?");
+        }
+
+        try (PreparedStatement stmt = connection.prepareStatement(sql.toString())) {
+            int index = 1;
+
+            // Define parâmetros no PreparedStatement
+            if (!id.isEmpty()) {
+                stmt.setInt(index++, Integer.parseInt(id)); // Converte o id para inteiro
+            }
+            if (!idResidente.isEmpty()) {
+                stmt.setInt(index++, Integer.parseInt(idResidente)); // Converte o idResidente para inteiro
+            }
+            if (!idResidencia.isEmpty()) {
+                stmt.setInt(index++, Integer.parseInt(idResidencia)); // Converte o idResidencia para inteiro
+            }
+            if (!status.isEmpty()) {
+                stmt.setString(index++, "%" + status + "%"); // ILIKE usa % para busca parcial
+            }
+            if (!dataInicio.isEmpty()) {
+                stmt.setDate(index++, java.sql.Date.valueOf(dataInicio)); // Converte a data de início para java.sql.Date
+            }
+            if (!dataConclusao.isEmpty()) {
+                stmt.setDate(index++, java.sql.Date.valueOf(dataConclusao)); // Converte a data de conclusão para java.sql.Date
+            }
+
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                Matricula matricula = new Matricula();
+                matricula.setIdMatricula(rs.getInt("id_matricula"));
+                matricula.setIdResidente(rs.getInt("id_residente"));
+                matricula.setIdResidencia(rs.getInt("id_residencia"));
+                matricula.setStatusMatricula(rs.getString("status_matricula"));
+                matricula.setDataInicioMatricula(rs.getDate("data_inicio_matricula"));
+                matricula.setDataConclusaoPrevistaMatricula(rs.getDate("data_conclusao_prevista_matricula"));
+                matricula.setDataDesligamentoMatricula(rs.getDate("data_desligamento_matricula"));
+
+                lista.add(matricula);
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Erro ao buscar matrículas: " + e.getMessage());
+        }
+
+        return lista;
+    }
+
     // UPDATE: Atualiza uma matrícula existente
     public void atualizarMatricula(Matricula matricula) {
         String sql = "UPDATE matriculas SET id_residente = ?, id_residencia = ?, status_matricula = ?, data_inicio_matricula = ?, data_conclusao_prevista_matricula = ?, data_desligamento_matricula = ? WHERE id_matricula = ?";
