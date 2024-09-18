@@ -24,13 +24,12 @@ public class ResidenciaDAO {
     
     // CREATE: Insere uma nova residência no banco de dados
     public void cadastrarResidencia(Residencia residencia) {
-        String sql = "INSERT INTO residencias (nome_residencia, apelido_residencia, categoria_residencia, duracao_residencia) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO residencias (nome_residencia, apelido_residencia, categoria_residencia) VALUES (?, ?, ?)";
 
         try (Connection conn = Conexao.conectar(); PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, residencia.getNomeResidencia());
             stmt.setString(2, residencia.getApelidoResidencia());
             stmt.setString(3, residencia.getCategoriaResidencia());
-            stmt.setString(4, residencia.getDuracaoResidencia().toString());  // Salva como string no banco de dados
 
             stmt.executeUpdate();
             System.out.println("Residência cadastrada com sucesso!");
@@ -55,7 +54,6 @@ public class ResidenciaDAO {
                 residencia.setNomeResidencia(rs.getString("nome_residencia"));
                 residencia.setApelidoResidencia(rs.getString("apelido_residencia"));
                 residencia.setCategoriaResidencia(rs.getString("categoria_residencia"));
-                residencia.setDuracaoResidencia(convertStringToDuration(rs.getString("duracao_residencia")));
             }
 
         } catch (SQLException e) {
@@ -79,7 +77,6 @@ public class ResidenciaDAO {
                 residencia.setNomeResidencia(rs.getString("nome_residencia"));
                 residencia.setApelidoResidencia(rs.getString("apelido_residencia"));
                 residencia.setCategoriaResidencia(rs.getString("categoria_residencia"));
-                residencia.setDuracaoResidencia(convertStringToDuration(rs.getString("duracao_residencia")));
 
                 lista.add(residencia);
             }
@@ -91,15 +88,50 @@ public class ResidenciaDAO {
         return lista;
     }
 
+    // READ: Buscar residências por múltiplos filtros (Id, Nome, Apelido, Categoria ou Duração)
+    public List<Residencia> buscarResidenciasPorFiltros(String id, String nome, String apelido, String categoria) {
+    List<Residencia> lista = new ArrayList<>();
+    String sql = "SELECT * FROM residencias WHERE "
+               + "(? IS NULL OR id_residencia = ?) "
+               + "AND (? IS NULL OR nome_residencia ILIKE ?) "
+               + "AND (? IS NULL OR apelido_residencia ILIKE ?) "
+               + "AND (? IS NULL OR categoria_residencia ILIKE ?) ";
+
+    try (Connection conn = Conexao.conectar(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+        stmt.setString(1, id.isEmpty() ? null : id);
+        stmt.setString(2, id);
+        stmt.setString(3, nome.isEmpty() ? null : nome);
+        stmt.setString(4, "%" + nome + "%");
+        stmt.setString(5, apelido.isEmpty() ? null : apelido);
+        stmt.setString(6, "%" + apelido + "%");
+        stmt.setString(7, categoria.isEmpty() ? null : categoria);
+        stmt.setString(8, "%" + categoria + "%");
+
+        ResultSet rs = stmt.executeQuery();
+        while (rs.next()) {
+            Residencia residencia = new Residencia();
+            residencia.setIdResidencia(rs.getInt("id_residencia"));
+            residencia.setNomeResidencia(rs.getString("nome_residencia"));
+            residencia.setApelidoResidencia(rs.getString("apelido_residencia"));
+            residencia.setCategoriaResidencia(rs.getString("categoria_residencia"));
+            lista.add(residencia);
+        }
+
+    } catch (SQLException e) {
+        System.out.println("Erro ao buscar residências: " + e.getMessage());
+    }
+
+    return lista;
+}
+    
     // UPDATE: Atualiza uma residência existente
     public void atualizarResidencia(Residencia residencia) {
-        String sql = "UPDATE residencias SET nome_residencia = ?, apelido_residencia = ?, categoria_residencia = ?, duracao_residencia = ? WHERE id_residencia = ?";
+        String sql = "UPDATE residencias SET nome_residencia = ?, apelido_residencia = ?, categoria_residencia = ? WHERE id_residencia = ?";
 
         try (Connection conn = Conexao.conectar(); PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, residencia.getNomeResidencia());
             stmt.setString(2, residencia.getApelidoResidencia());
             stmt.setString(3, residencia.getCategoriaResidencia());
-            stmt.setString(4, residencia.getDuracaoResidencia().toString());
             stmt.setInt(5, residencia.getIdResidencia());
 
             stmt.executeUpdate();
@@ -121,17 +153,6 @@ public class ResidenciaDAO {
 
         } catch (SQLException e) {
             System.out.println("Erro ao deletar residência: " + e.getMessage());
-        }
-    }
-
-    // Método auxiliar para converter String para Duration
-    private Duration convertStringToDuration(String intervalString) {
-        try {
-            // Converte string no formato ISO 8601 (ex: PT20H para 20 horas)
-            return Duration.parse(intervalString); 
-        } catch (DateTimeParseException e) {
-            System.out.println("Erro ao converter intervalo para Duration: " + e.getMessage());
-            return null;
         }
     }
 }

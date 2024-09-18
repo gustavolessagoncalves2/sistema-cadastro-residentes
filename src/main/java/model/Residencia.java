@@ -17,7 +17,6 @@ public class Residencia {
     private String nomeResidencia;
     private String apelidoResidencia;
     private String categoriaResidencia;
-    private Duration duracaoResidencia;
 
     // Construtor
     public Residencia() {}
@@ -54,15 +53,7 @@ public class Residencia {
     public void setCategoriaResidencia(String categoriaResidencia) {
         this.categoriaResidencia = categoriaResidencia;
     }
-
-    public Duration getDuracaoResidencia() {
-        return duracaoResidencia;
-    }
-
-    public void setDuracaoResidencia(Duration duracaoResidencia) {
-        this.duracaoResidencia = duracaoResidencia;
-    }
-    
+   
     // Método toString() sobrescrito para representar a residência
     @Override
     public String toString() {

@@ -17,7 +17,7 @@ import java.time.Duration;
 
 public class CadastroResidencia extends JFrame {
 
-    private JTextField nomeField, apelidoField, categoriaField, duracaoField;
+    private JTextField nomeField, apelidoField, categoriaField;
 
     public CadastroResidencia() {
         setTitle("Cadastro de Residência");
@@ -40,10 +40,6 @@ public class CadastroResidencia extends JFrame {
         categoriaField = new JTextField();
         panel.add(categoriaField);
 
-        panel.add(new JLabel("Duração da Residência (Formato PnDTnHnMn):"));
-        duracaoField = new JTextField();
-        panel.add(duracaoField);
-
         // Botão de salvar
         JButton btnSalvar = new JButton("Salvar");
         btnSalvar.addActionListener(new ActionListener() {
@@ -62,20 +58,10 @@ public class CadastroResidencia extends JFrame {
         String nome = nomeField.getText();
         String apelido = apelidoField.getText();
         String categoria = categoriaField.getText();
-        String duracaoStr = duracaoField.getText();
 
         // Validação básica
-        if (nome.isEmpty() || apelido.isEmpty() || categoria.isEmpty() || duracaoStr.isEmpty()) {
+        if (nome.isEmpty() || apelido.isEmpty() || categoria.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Todos os campos são obrigatórios!");
-            return;
-        }
-
-        // Verificação se a duração é válida
-        Duration duracao;
-        try {
-            duracao = Duration.parse(duracaoStr);
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, "Formato de duração inválido! Use o formato PnDTnHnMn.");
             return;
         }
 
@@ -84,7 +70,6 @@ public class CadastroResidencia extends JFrame {
         residencia.setNomeResidencia(nome);
         residencia.setApelidoResidencia(apelido);
         residencia.setCategoriaResidencia(categoria);
-        residencia.setDuracaoResidencia(duracao);
 
         ResidenciaDAO residenciaDAO = new ResidenciaDAO();
         residenciaDAO.cadastrarResidencia(residencia);
@@ -96,7 +81,6 @@ public class CadastroResidencia extends JFrame {
         nomeField.setText("");
         apelidoField.setText("");
         categoriaField.setText("");
-        duracaoField.setText("");
     }
 }
 
