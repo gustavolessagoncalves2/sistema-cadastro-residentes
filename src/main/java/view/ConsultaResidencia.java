@@ -9,6 +9,7 @@ package view;
  * @author gustavogoncalves
  */
 import dao.ResidenciaDAO;
+import database.Conexao;
 import model.Residencia;
 import javax.swing.*;
 import java.awt.*;
@@ -16,8 +17,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
+import java.sql.Connection;
+import java.sql.SQLException;
 
 public class ConsultaResidencia extends JFrame {
+    private Connection connection;
+    
     private JTextField idField;
     private JTextField nomeField;
     private JTextField apelidoField;
@@ -29,7 +34,9 @@ public class ConsultaResidencia extends JFrame {
     private List<Residencia> residencias;
     private int residenciaSelecionadaId = -1;
 
-    public ConsultaResidencia() {
+    public ConsultaResidencia(Connection connection) {
+        this.connection = connection;
+
         setTitle("Consulta de Residência");
         setSize(800, 600);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -131,6 +138,11 @@ public class ConsultaResidencia extends JFrame {
     }
 
     public static void main(String[] args) {
-        new ConsultaResidencia().setVisible(true);
-    }
+        try {
+            Connection connection = Conexao.conectar(); // Cria a conexão
+            new ConsultaResidente(connection).setVisible(true); // Passa a conexão para a tela de consulta
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }     
 }

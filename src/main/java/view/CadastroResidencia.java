@@ -11,15 +11,20 @@ package view;
 import dao.ResidenciaDAO;
 import model.Residencia;
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.Duration;
+import java.sql.Connection;
 
 public class CadastroResidencia extends JFrame {
-
+    private Connection connection;
+    
     private JTextField nomeField, apelidoField, categoriaField;
 
-    public CadastroResidencia() {
+    public CadastroResidencia(Connection connection) {
+        this.connection = connection;
+
         setTitle("Cadastro de Residência");
         setSize(400, 250);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Fecha apenas a janela atual

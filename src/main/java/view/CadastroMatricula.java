@@ -15,14 +15,16 @@ import model.Residencia;
 import dao.ResidenteDAO;
 import model.Residente;
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.Date;
-
+import java.sql.Connection;
 
 public class CadastroMatricula extends JFrame {
-
+    private Connection connection;
+    
     private JComboBox<Residente> residenteComboBox;
     private JComboBox<Residencia> residenciaComboBox;
     private JTextField statusField;
@@ -31,7 +33,9 @@ public class CadastroMatricula extends JFrame {
     private JTextField dataDesligamentoField;
     private JButton salvarButton;
 
-    public CadastroMatricula() {
+    public CadastroMatricula(Connection connection) {
+        this.connection = connection;
+        
         setTitle("Cadastro de Matrícula");
         setSize(400, 400);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
