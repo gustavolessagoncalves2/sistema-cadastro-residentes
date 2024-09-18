@@ -88,61 +88,61 @@ public class ResidenciaDAO {
         return lista;
     }
 
-// READ: Buscar residências por múltiplos filtros (Id, Nome, Apelido ou Categoria)
-public List<Residencia> buscarResidenciasPorFiltros(String id, String nome, String apelido, String categoria) {
-    List<Residencia> lista = new ArrayList<>();
-    StringBuilder sql = new StringBuilder("SELECT * FROM residencias WHERE 1=1");
+    // READ: Buscar residências por múltiplos filtros (Id, Nome, Apelido ou Categoria)
+    public List<Residencia> buscarResidenciasPorFiltros(String id, String nome, String apelido, String categoria) {
+        List<Residencia> lista = new ArrayList<>();
+        StringBuilder sql = new StringBuilder("SELECT * FROM residencias WHERE 1=1");
 
-    // Adiciona condições de filtro ao SQL
-    if (!id.isEmpty()) {
-        sql.append(" AND id_residencia = ?");
-    }
-    if (!nome.isEmpty()) {
-        sql.append(" AND nome_residencia ILIKE ?");
-    }
-    if (!apelido.isEmpty()) {
-        sql.append(" AND apelido_residencia ILIKE ?");
-    }
-    if (!categoria.isEmpty()) {
-        sql.append(" AND categoria_residencia ILIKE ?");
-    }
-
-    try (Connection conn = Conexao.conectar(); PreparedStatement stmt = conn.prepareStatement(sql.toString())) {
-        int index = 1;
-
-        // Define parâmetros no PreparedStatement
+        // Adiciona condições de filtro ao SQL
         if (!id.isEmpty()) {
-            stmt.setInt(index++, Integer.parseInt(id)); // Converte o id para inteiro
+            sql.append(" AND id_residencia = ?");
         }
         if (!nome.isEmpty()) {
-            stmt.setString(index++, "%" + nome + "%"); // ILIKE usa % para busca parcial
+            sql.append(" AND nome_residencia ILIKE ?");
         }
         if (!apelido.isEmpty()) {
-            stmt.setString(index++, "%" + apelido + "%"); // ILIKE usa % para busca parcial
+            sql.append(" AND apelido_residencia ILIKE ?");
         }
         if (!categoria.isEmpty()) {
-            stmt.setString(index++, "%" + categoria + "%"); // ILIKE usa % para busca parcial
+            sql.append(" AND categoria_residencia ILIKE ?");
         }
 
-        ResultSet rs = stmt.executeQuery();
+        try (Connection conn = Conexao.conectar(); PreparedStatement stmt = conn.prepareStatement(sql.toString())) {
+            int index = 1;
 
-        while (rs.next()) {
-            Residencia residencia = new Residencia();
-            residencia.setIdResidencia(rs.getInt("id_residencia"));
-            residencia.setNomeResidencia(rs.getString("nome_residencia"));
-            residencia.setApelidoResidencia(rs.getString("apelido_residencia"));
-            residencia.setCategoriaResidencia(rs.getString("categoria_residencia"));
+            // Define parâmetros no PreparedStatement
+            if (!id.isEmpty()) {
+                stmt.setInt(index++, Integer.parseInt(id)); // Converte o id para inteiro
+            }
+            if (!nome.isEmpty()) {
+                stmt.setString(index++, "%" + nome + "%"); // ILIKE usa % para busca parcial
+            }
+            if (!apelido.isEmpty()) {
+                stmt.setString(index++, "%" + apelido + "%"); // ILIKE usa % para busca parcial
+            }
+            if (!categoria.isEmpty()) {
+                stmt.setString(index++, "%" + categoria + "%"); // ILIKE usa % para busca parcial
+            }
 
-            lista.add(residencia);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                Residencia residencia = new Residencia();
+                residencia.setIdResidencia(rs.getInt("id_residencia"));
+                residencia.setNomeResidencia(rs.getString("nome_residencia"));
+                residencia.setApelidoResidencia(rs.getString("apelido_residencia"));
+                residencia.setCategoriaResidencia(rs.getString("categoria_residencia"));
+
+                lista.add(residencia);
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Erro ao buscar residências: " + e.getMessage());
         }
 
-    } catch (SQLException e) {
-        System.out.println("Erro ao buscar residências: " + e.getMessage());
+        return lista;
     }
 
-    return lista;
-}
-    
     // UPDATE: Atualiza uma residência existente
     public void atualizarResidencia(Residencia residencia) {
         String sql = "UPDATE residencias SET nome_residencia = ?, apelido_residencia = ?, categoria_residencia = ? WHERE id_residencia = ?";
@@ -151,7 +151,7 @@ public List<Residencia> buscarResidenciasPorFiltros(String id, String nome, Stri
             stmt.setString(1, residencia.getNomeResidencia());
             stmt.setString(2, residencia.getApelidoResidencia());
             stmt.setString(3, residencia.getCategoriaResidencia());
-            stmt.setInt(5, residencia.getIdResidencia());
+            stmt.setInt(4, residencia.getIdResidencia());
 
             stmt.executeUpdate();
             System.out.println("Residência atualizada com sucesso!");
